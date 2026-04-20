@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/x-icon" href="images/icons/acb-icon.ico">
+<title>Avaliações de Lojas</title>
+
+<!-- Chart.js (permitido na sua CSP) -->
+<script src="/js/chart.umd.min.js"></script>
+
+<style>
+
+/* RESET */
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  font-family:'Segoe UI',sans-serif;
+  background:#f5f7f6;
+  color:#333;
+  min-height:100vh;
+}
+
+/* ================= NAVBAR ================= */
+nav{
+  position:fixed;
+  top:0;
+  left:0;
+  height:70px;
+  width:100%;
+  display:flex;
+  align-items:center;
+  background:#05c178;
+  box-shadow:0 2px 6px rgba(0,0,0,0.05);
+  z-index:1000;
+}
+
+/* Botão sair na navbar */
+.btn-logout-navbar{
+  margin-left: auto;
+  margin-right:24px;
+  padding:8px 16px;
+  border:none;
+  border-radius:8px;
+  background:#FB4136;
+  color:#fff;
+  font-weight:600;
+  cursor:pointer;
+  transition:0.2s;
+}
+
+.btn-logout-navbar:hover{
+  background:#d8362e;
+}
+
+nav .logo{
+  display:flex;
+  align-items:center;
+  margin:0 24px;
+}
+
+.menu-icon{
+  font-size:26px;
+  margin-right:14px;
+  cursor:pointer;
+  color:#ffffff;
+  font-weight:bold;
+}
+
+.logo-name{
+  font-size:22px;
+  font-weight:600;
+  color:#ffffff;
+  line-height: 0.9;
+  font-style: italic;
+  word-spacing: -4px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+}
+
+.logo-img {
+  height: 48px;
+  width: auto;
+  margin-left: -9px;
+}
+
+.side-name{
+  font-size:24px;
+  font-weight:600;
+  color:#05c178;
+  line-height: 0.9;
+  font-style: italic;
+  word-spacing: -4px;
+}
+
+.side-img {
+  height: 48px;
+  width: auto;
+  margin-left: -9px;
+  margin-top: -17px;
+}
+/* ================= SIDEBAR ================= */
+.sidebar{
+  position:fixed;
+  top:0;
+  left:-260px;
+  height:100%;
+  width:260px;
+  padding-top:0px;
+  background:#fff;
+  box-shadow:0 5px 15px rgba(0,0,0,0.1);
+  transition:0.3s;
+  z-index:1001;
+}
+
+.sidebar.active{
+  left:0;
+}
+
+.sidebar-content{
+  display:flex;
+  height:100%;
+  flex-direction:column;
+  justify-content:space-between;
+  padding:30px 16px;
+}
+
+.list{
+  list-style:none;
+}
+
+.list-items{
+  margin-top: -30.0rem;
+}
+
+.nav-link{
+  display:block;
+  padding:14px 12px;
+  border-radius:8px;
+  text-decoration:none;
+  color:#05c178;
+  margin-bottom:8px;
+  transition:0.2s;
+}
+
+.nav-link:hover{
+  background:#05c178;
+  color:#fff;
+}
+
+.nav-logout{
+  display:block;
+  padding:14px 12px;
+  border-radius:8px;
+  text-decoration:none;
+  color:#FB4136;
+  margin-bottom:8px;
+  transition:0.2s;
+  text-align: center;
+  
+}
+
+.nav-logout:hover{
+  background:#FB4136;
+  color:#fff;
+}
+
+/* OVERLAY */
+.overlay{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.3);
+  display:none;
+  z-index:1000;
+}
+
+.overlay.active{
+  display:block;
+}
+
+
+.sidebar-header{
+  text-align:center;
+  font-weight:bold;
+  font-size:18px;
+  color:#05c178;
+  display: flex;         /* Coloca os itens lado a lado */
+  gap: 10px;             /* Espaço opcional entre a imagem e o texto */
+}
+
+/* ================= CONTAINER ================= */
+.container{
+  max-width:1700px;
+  margin:110px auto 40px auto;
+  padding:20px;
+}
+
+/* ================= FILTROS ================= */
+.filtros-card{
+  background:#fff;
+  padding:25px 30px;
+  border-radius:16px;
+  box-shadow:0 6px 18px rgba(0,0,0,0.08);
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  gap:20px;
+  margin-bottom:30px;
+  margin-top: -30px;
+  border-left:6px solid #05c178;
+}
+
+.filtro-grupo{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.filtro-grupo label{
+  font-weight:600;
+  color:#05c178;
+  font-size:14px;
+}
+
+.filtro-grupo select,
+.filtro-grupo input{
+  padding:8px 12px;
+  border-radius:8px;
+  border:1px solid #ddd;
+  font-size:14px;
+}
+
+.btnLogoutGerente{
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+}
+
+#btnFiltrarPeriodo,
+#btnLimparFiltro,
+#btnLogoutGerente{
+  padding:9px 18px;
+  border:none;
+  border-radius:8px;
+  font-weight:600;
+  cursor:pointer;
+}
+
+#btnFiltrarPeriodo{
+  background:#05c178;
+  color:#fff;
+  transition: all 0.2s ease;
+}
+
+#btnFiltrarPeriodo:hover{
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+
+#btnFiltrarPeriodo:active{
+  transform: scale(0.96);
+  box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+}
+
+#btnLimparFiltro{
+  background:#FFC107;
+  color: #fff;
+  transition: all 0.2s ease;
+}
+
+#btnLimparFiltro:hover{
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+
+#btnLimparFiltro:active{
+  transform: scale(0.96);
+  box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+}
+
+#btnLogoutGerente{
+  background: #FC675E;
+  color: #fff;
+}
+
+#btnLogoutGerente:hover{
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+
+#btnLogoutGerente:active{
+  transform: scale(0.96);
+  box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+}
+
+
+/* ================= KPI ================= */
+.kpi-container{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:25px;
+  margin-bottom:30px;
+}
+
+.kpi-card{
+  background:#fff;
+  padding:30px;
+  border-radius:16px;
+  box-shadow:0 6px 18px rgba(0,0,0,0.08);
+  border-left:6px solid #05c178;
+}
+
+.valor{
+  font-size:32px;
+  font-weight:bold;
+  color:#05c178;
+}
+
+/* ================= GRAFICOS ================= */
+.graficos{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:25px;
+  margin-bottom:30px;
+}
+
+.grafico-box{
+  background:#fff;
+  padding:25px;
+  border-radius:16px;
+  box-shadow:0 6px 18px rgba(0,0,0,0.08);
+}
+
+.grafico-box h3{
+  margin-bottom: 15px;
+}
+
+/* ================= TABELA ================= */
+.tabela-box{
+  background:#fff;
+  padding:25px;
+  border-radius:16px;
+  box-shadow:0 6px 18px rgba(0,0,0,0.08);
+}
+
+.tabela-box h3{
+  margin-bottom: 15px;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+}
+
+th,td{
+  padding:14px;
+  text-align:center;
+}
+
+th{
+  background:#05c178;
+  color:#fff;
+}
+
+tr:nth-child(even){
+  background:#f9f9f9;
+}
+
+.btn-comentario{
+  padding:6px 12px;
+  border:none;
+  border-radius:6px;
+  background:#007bff;
+  color:#fff;
+  cursor:pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-comentario:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 5px 10px rgba(0,0,0,0.15);
+}
+
+.btn-comentario:active{
+  transform: scale(0.95);
+  box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+}
+
+/* ================= MODAL ================= */
+.modal{
+  display:none;
+  position:fixed;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.6);
+  top:0;
+  left:0;
+}
+
+.modal-conteudo{
+  background:#fff;
+  padding:30px;
+  width:420px;
+  margin:10% auto;
+  border-radius:16px;
+}
+
+.fechar{
+  float:right;
+  cursor:pointer;
+  color:#05c178;
+  font-weight:bold;
+}
+
+/* RESPONSIVO */
+@media(max-width:900px){
+  .graficos{
+    grid-template-columns:1fr;
+  }
+  .filtros-card{
+    flex-direction:column;
+    align-items:flex-start;
+  }
+}
+
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">
+    <span class="menu-icon" id="menuBtn">☰</span>
+
+    <img src="images/acb.png" alt="Logo A Casa Brasileira" class="logo-img">
+
+    <span class="logo-name">A Casa Brasileira</span>
+  </div>
+
+  <!-- Botão sair navbar -->
+  <button id="btnLogoutNavbar" class="btn-logout-navbar" style="display:none;">
+    Sair
+  </button>
+</nav>
+
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-content">
+    
+    <div class="sidebar-header">
+      <img src="images/icon-preto.png" alt="Logo A Casa Brasileira" class="side-img">
+      <span class="side-name">A Casa Brasileira</span>
+    </div>
+    
+    <ul class="list-items">
+      <li class="list">
+        <a href="lista-usuarios.html" class="nav-link">Lista de Usuários</a>
+      </li>
+      <li class="list">
+        <a href="cadastro-usuarios.html" class="nav-link">Cadastro de Usuários</a>
+      </li>
+    </ul>
+    <div>
+      <li class="list">
+        <a href="#" class="nav-logout" id="btnLogout">Sair</a>
+      </li>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="overlay"></div>
+
+<div class="container">
+
+    <!-- ÁREA DE FILTROS -->
+    <div class="filtros-card">
+        <div class="filtro-grupo">
+            <label for="filtroLoja">Loja:</label>
+            <select id="filtroLoja">
+                <option value="todas">Todas as Lojas</option>
+            </select>
+        </div>
+
+        <div class="filtro-grupo">
+            <label for="dataInicio">De:</label>
+            <input type="date" id="dataInicio">
+        </div>
+
+        <div class="filtro-grupo">
+            <label for="dataFim">Até:</label>
+            <input type="date" id="dataFim">
+        </div>
+
+        <button id="btnFiltrarPeriodo">Aplicar Filtro</button>
+        <button id="btnLimparFiltro">Limpar Filtro</button>
+
+        <div class="btnLogoutGerente">
+          <button id="btnLogoutGerente">Sair</button>
+        </div>
+    </div>
+
+    <!-- KPI -->
+    <div class="kpi-container">
+        <div class="kpi-card">
+            <h3>Média Geral</h3>
+            <div class="valor" id="mediaGeral">0</div>
+        </div>
+        <div class="kpi-card">
+            <h3>Melhor Avaliação</h3>
+            <div class="valor" id="melhorLoja">-</div>
+        </div>
+        <div class="kpi-card">
+            <h3>Pior Avaliação</h3>
+            <div class="valor" id="piorLoja">-</div> 
+        </div>
+        <div class="kpi-card">
+            <h3>Total Avaliações</h3>
+            <div class="valor" id="totalAvaliacoes">0</div>
+        </div>
+    </div>
+
+    <!-- GRAFICOS -->
+    <div class="graficos">
+        <div class="grafico-box">
+            <h3>Melhores Avaliações</h3>
+            <canvas id="graficoMelhores"></canvas>
+        </div>
+        <div class="grafico-box">
+            <h3>Piores Avaliações</h3>
+            <canvas id="graficoPiores"></canvas>
+        </div>
+    </div>
+
+    <!-- TABELA -->
+    <div class="tabela-box">
+        <h3>Detalhamento das Avaliações</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Loja</th>
+                    <th>Atendimento</th>
+                    <th>Organização</th>
+                    <th>Produtos</th>
+                    <th>Data</th>
+                    <th>Comentário</th>
+                </tr>
+            </thead>
+            <tbody id="corpoTabela"></tbody>
+        </table>
+    </div>
+</div>
+
+<div id="modalComentario" class="modal">
+    <div class="modal-conteudo">
+        <span class="fechar" id="btnFecharModal">X</span>
+        <div id="dataComentario"></div>
+        <h3>Comentário</h3>
+        <p id="textoComentario"></p>
+    </div>
+</div>
+
+<!-- SCRIPT EXTERNO -->
+
+<script src="gerencia.js"></script>
+
+</body>
+</html>

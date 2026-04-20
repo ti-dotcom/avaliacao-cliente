@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/x-icon" href="images/icons/acb-icon.ico">
+<title>Lista de Usuários</title>
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  font-family:'Segoe UI',sans-serif;
+  background:#05c178;
+  color:#333;
+  min-height:100vh;
+}
+
+/* BOTÃO MENU */
+.menu-icon{
+  position:fixed;
+  top:20px;
+  left:20px;
+  font-size:26px;
+  cursor:pointer;
+  color:#ffffff;
+  font-weight:bold;
+
+  padding:8px 14px;
+  border-radius:8px;
+  z-index:1002;
+
+}
+
+/* SIDEBAR */
+.sidebar{
+  position:fixed;
+  top:0;
+  left:-260px;
+  height:100%;
+  width:260px;
+  background:#fff;
+  box-shadow:0 5px 15px rgba(0,0,0,0.1);
+  transition:0.3s;
+  z-index:1001;
+}
+
+.sidebar.active{
+  left:0;
+}
+
+.sidebar-content{
+  display:flex;
+  height:100%;
+  flex-direction:column;
+  justify-content:space-between;
+  padding:30px 16px;
+}
+
+/* HEADER DA SIDEBAR (LOGO) */
+.sidebar-header{
+  text-align:center;
+  font-weight:bold;
+  font-size:18px;
+  color:#05c178;
+  display: flex;         /* Coloca os itens lado a lado */
+  gap: 10px;             /* Espaço opcional entre a imagem e o texto */
+}
+
+.side-name{
+  font-size:24px;
+  font-weight:600;
+  color:#05c178;
+  line-height: 0.9;
+  font-style: italic;
+  word-spacing: -4px;
+}
+
+.side-img {
+  height: 48px;
+  width: auto;
+  margin-left: -9px;
+  margin-top: -17px;
+}
+
+/* LINKS */
+.list-items{
+  list-style:none;
+  margin-top: -30.0rem;
+}
+
+.list-items li{
+  margin-bottom:8px;
+}
+
+.nav-link{
+  display:block;
+  padding:14px 12px;
+  border-radius:8px;
+  text-decoration:none;
+  color:#05c178;
+  transition:0.2s;
+}
+
+.nav-link:hover{
+  background:#05c178;
+  color:#fff;
+}
+
+.nav-logout{
+  display:block;
+  padding:14px 12px;
+  border-radius:8px;
+  text-decoration:none;
+  color:#FB4136;
+  margin-bottom:8px;
+  transition:0.2s;
+  text-align: center;
+}
+
+.nav-logout:hover{
+  background:#FB4136;
+  color:#fff;
+}
+
+/* OVERLAY */
+.overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.3);
+  display:none;
+  z-index:1000;
+}
+
+.overlay.active{
+  display:block;
+}
+
+/* CONTAINER */
+.container{
+  max-width:1400px;
+  margin:120px auto 40px auto;
+  padding:20px;
+}
+
+.tabela-box{
+  background:#fff;
+  padding:25px;
+  border-radius:16px;
+  box-shadow:0 6px 18px rgba(0,0,0,0.08);
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+}
+
+th,td{
+  padding:14px;
+  text-align:center;
+}
+
+th{
+  background:#05c178;
+  color:#fff;
+}
+
+tr:nth-child(even){
+  background:#f9f9f9;
+}
+
+.list-users{
+    margin-bottom: 10px;
+}
+
+/* BOTÕES */
+.btnEditar{
+  background:#007bff;
+  color:#fff;
+  border:none;
+  padding:8px 14px;
+  border-radius:8px;
+  cursor:pointer;
+  margin:3px;
+  transition:0.2s;
+}
+
+.btnEditar:hover{
+  background:#0062cc;
+  transform:translateY(-2px);
+}
+
+.btnExcluir{
+  background:#dc3545;
+  color:#fff;
+  border:none;
+  padding:8px 14px;
+  border-radius:8px;
+  cursor:pointer;
+  margin:3px;
+  transition:0.2s;
+}
+
+.btnExcluir:hover{
+  background:#b02a37;
+  transform:translateY(-2px);
+}
+
+/* MODAL */
+.modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.55);
+  backdrop-filter:blur(3px);
+  justify-content:center;
+  align-items:center;
+  z-index:999;
+}
+
+.modal.active{
+  display:flex;
+}
+
+.modal-card{
+  background:#fff;
+  width:420px;
+  border-radius:16px;
+  padding:30px;
+  box-shadow:0 10px 35px rgba(0,0,0,0.2);
+}
+
+.modal-card h3{
+  text-align:center;
+  margin-bottom:20px;
+}
+
+.modal-card input,
+.modal-card select{
+  width:100%;
+  padding:12px;
+  margin-bottom:15px;
+  border-radius:8px;
+  border:1px solid #ddd;
+}
+
+.modal-actions{
+  display:flex;
+  gap:10px;
+}
+
+.btnSalvar{
+  flex:1;
+  background:#05c178;
+  color:#fff;
+  border:none;
+  padding:10px;
+  border-radius:8px;
+  cursor:pointer;
+}
+
+.btnCancelar{
+  flex:1;
+  background:#6c757d;
+  color:#fff;
+  border:none;
+  padding:10px;
+  border-radius:8px;
+  cursor:pointer;
+}
+</style>
+</head>
+<body>
+
+<div class="menu-icon" id="menuBtn">☰</div>
+
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-content">
+
+    <div class="sidebar-header">
+      <img src="images/icon-preto.png" alt="Logo A Casa Brasileira" class="side-img">
+      <span class="side-name">A Casa Brasileira</span>
+    </div>
+
+    <ul class="list-items">
+      <li>
+        <a href="gerencia.html" class="nav-link">Dashboard</a>
+      </li>
+      <li>
+        <a href="cadastro-usuarios.html" class="nav-link">Cadastro de Usuários</a>
+      </li>
+    </ul>
+
+    <a href="#" class="nav-logout" id="btnLogout">Sair</a>
+
+  </div>
+</div>
+
+<div class="overlay" id="overlay"></div>
+
+<div class="container">
+  <div class="tabela-box">
+    <div class="list-users">
+        <h2>Lista de Usuários</h2>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Usuário</th>
+          <th>Cargo</th>
+          <th>Filial</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody id="tabelaUsuarios"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="modal" id="modalEditar">
+  <div class="modal-card">
+    <h3>Alterar Usuário</h3>
+
+    <input type="text" id="editarUsername" placeholder="Usuário">
+    <input type="password" id="editarSenha" placeholder="Nova senha (opcional)">
+
+    <select id="editarCargo">
+      <option value="admin">Administrador</option>
+      <option value="gerente">Gerente</option>
+    </select>
+
+    <select id="editarLoja"></select>
+
+    <div class="modal-actions">
+      <button class="btnSalvar" id="salvarAlteracao">Salvar</button>
+      <button class="btnCancelar" id="fecharModal">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<script src="lista-usuarios.js"></script>
+</body>
+</html>

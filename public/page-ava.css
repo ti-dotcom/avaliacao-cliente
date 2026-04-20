@@ -1,0 +1,110 @@
+body {
+    font-family: 'Segoe UI', sans-serif;
+    max-width: 500px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #05c178;
+}
+
+.card {
+    background: white;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 6px 25px rgba(0,0,0,0.12);
+}
+
+/* 🔥 HEADER CENTRALIZADO */
+.card-header {
+    display: flex;
+    justify-content: center;   /* centraliza horizontal */
+  /* alinha vertical */
+    gap: 12px;                 /* espaço entre logo e nome */
+    margin-bottom: 20px;
+}
+
+.logo {
+    height: 48px;
+    width: auto;
+    margin: 0; /* remove margens antigas */
+}
+
+.name-shop{
+  font-size:24px;
+  font-weight:600;
+  color:#05c178;
+  line-height: 1;
+  font-style: italic;
+  word-spacing: -4px;
+  margin: 0; /* remove margem padrão do h1 */
+  margin-top: 15px;
+}
+
+h1, h3 {
+    text-align: center;
+}
+
+h3 {
+    border-bottom: 4px solid #05c178;
+    padding-bottom: 8px;
+    color: #4b4b4b;
+}
+
+label {
+    display: block;
+    margin-top: 15px;
+    font-weight: 600;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 12px;
+    margin-top: 6px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+    box-sizing: border-box;
+}
+
+button {
+    width: 100%;
+    margin-top: 25px;
+    padding: 14px;
+    cursor: pointer;
+    background: #05c178;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+button:hover {
+    background: #049963;
+}
+
+button:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+}
+
+.mensagem {
+    margin-top: 15px;
+    padding: 12px;
+    border-radius: 8px;
+    text-align: center;
+    font-weight: 600;
+    display:none;
+}
+
+.mensagem.sucesso {
+    display:block;
+    background:#e6fff4;
+    color:#049963;
+}
+
+.mensagem.erro {
+    display:block;
+    background:#ffe6e6;
+    color:#cc0000;
+}

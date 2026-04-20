@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="page-ava.css">
+  <link rel="icon" type="image/x-icon" href="images/icons/acb-icon.ico">
+  <title>Avaliação - A Casa Brasileira</title>
+</head>
+<body>
+  <div class="card">
+
+    <div class="card-header">
+      <img src="images/icon-preto.png" class="logo">
+      <h1 class="name-shop">A Casa Brasileira</h1>
+    </div>
+
+    <div class="name-ava">
+      <h3>Avaliação de Loja</h3>
+    </div>
+
+    <div id="mensagem" class="mensagem"></div>
+    
+    <form id="formAvaliacao" novalidate>
+      <label for="loja">Selecione a Loja:</label>
+      <select id="loja" required></select>
+
+      <label for="organizacao">Organização da Loja (1 a 5):</label>
+      <input type="number" id="organizacao" min="1" max="5" required>
+
+      <label for="produtos">Produtos de fácil acesso? (1 a 5):</label>
+      <input type="number" id="produtos" min="1" max="5" required>
+
+      <label for="atendimento">Nota para o Atendimento Geral (1 a 5):</label>
+      <input type="number" id="atendimento" min="1" max="5" required>
+
+      <label for="comentario">Comentário (Opcional):</label>
+      <textarea id="comentario" rows="3" maxlength="300"></textarea>
+
+      <button type="submit" id="btnEnviar">Enviar Avaliação</button>
+    </form>
+  </div>
+
+<script src="page-ava.js"></script>
+</body>
+</html>

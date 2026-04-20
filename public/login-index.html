@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Avaliaçao de loja</title>
+    <link rel="stylesheet" href="login-style.css">
+    <link rel="icon" type="image/png" href="/avaliacoes-app/public/images/logo.png"/>
+
+</head>
+<body>
+    <div class="soft-background">
+        <div class="floating-shapes">
+            <div class="soft-blob blob-1"></div>
+            <div class="soft-blob blob-2"></div>
+            <div class="soft-blob blob-3"></div>
+            <div class="soft-blob blob-4"></div>
+        </div>
+    </div>
+
+    <div class="login-container">
+        <div class="soft-card">
+            <!-- Cabeçalho -->
+            <div class="comfort-header">
+                <div class="gentle-logo">
+                    <div class="logo-circle">
+                        <img src="images/logo.png" width="20" height="20" viewBox="0 0 32 32" fill="none">
+                        <div class="gentle-glow"></div>
+                    </div>
+                </div>
+                <h1 class="comfort-title">A Casa Brasileira</h1>
+                <p class="gentle-subtitle">AVALIAÇÕES DE LOJAS</p>
+            </div>
+
+            <!-- Formulário de login -->
+            <form class="comfort-form" id="loginForm" novalidate>
+                <div class="soft-field">
+                    <div class="field-container">
+                        <input type="text" id="username" name="username" required autocomplete="username" placeholder=" ">
+                        <label for="username" id="usernameLabel">Usuário</label>
+                        <div class="field-accent"></div>
+                    </div>
+                    <span class="gentle-error" id="usernameError"></span>
+                </div>
+
+                <div class="soft-field">
+                    <div class="field-container">
+                        <input type="password" id="password" name="password" required autocomplete="current-password" placeholder=" ">
+                        <label for="password" id="passwordLabel">Senha</label>
+                        <button type="button" class="gentle-toggle" id="passwordToggle" aria-label="Toggle password visibility">
+                            <div class="toggle-icon">
+                                <svg class="eye-open" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                    <path d="M10 3c-4.5 0-8.3 3.8-9 7 .7 3.2 4.5 7 9 7s8.3-3.8 9-7c-.7-3.2-4.5-7-9-7z" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                                    <circle cx="10" cy="10" r="3" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                                </svg>
+                                <svg class="eye-closed" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                    <path d="M3 3l14 14M8.5 8.5a3 3 0 004 4m2.5-2.5C15 10 12.5 7 10 7c-.5 0-1 .1-1.5.3M10 13c-2.5 0-4.5-2-5-3 .3-.6.7-1.2 1.2-1.7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </div>
+                        </button>
+                        <div class="field-accent"></div>
+                    </div>
+                    <span class="gentle-error" id="passwordError"></span>
+                </div>
+
+                <div class="comfort-options">
+                    <label class="gentle-checkbox">
+                        <input type="checkbox" id="remember" name="remember">
+                        <span class="checkbox-soft">
+                            <div class="check-circle"></div>
+                            <svg class="check-mark" width="12" height="10" viewBox="0 0 12 10" fill="none">
+                                <path d="M1 5l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </span>
+                        <span class="checkbox-text">Lembrar-me</span>
+                    </label>
+                    <a href="https://wa.me/5561991962470" class="comfort-link">Esqueceu a senha?</a>
+                </div>
+
+                <button type="submit" class="comfort-button">
+                    <div class="button-background"></div>
+                    <span class="button-text">Login</span>
+                    <div class="button-loader">
+                        <div class="gentle-spinner">
+                            <div class="spinner-circle"></div>
+                        </div>
+                    </div>
+                    <div class="button-glow"></div>
+                </button>
+            </form>
+            <!--
+            <div class="comfort-signup">
+                <a href="cad-index.html" class="comfort-link signup-link">Cadastrar-se</a>
+            </div>
+            -->
+            <!-- Mensagem de sucesso -->
+            <div class="gentle-success" id="successMessage">
+                <div class="success-bloom">
+                    <div class="bloom-rings">
+                        <div class="bloom-ring ring-1"></div>
+                        <div class="bloom-ring ring-2"></div>
+                        <div class="bloom-ring ring-3"></div>
+                    </div>
+                    <div class="success-icon">
+                        <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+                            <path d="M8 14l5 5 11-11" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>Copyright © 2026 A Casa Brasileira. Todos os direitos reservados.</p>
+    </footer>
+
+    <script src="login-script.js"></script>
+</body>
+</html>

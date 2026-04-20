@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/x-icon" href="images/icons/acb-icon.ico">
+<title>Cadastro de Usuários</title>
+
+<style>
+body{
+    margin:0;
+    font-family:'Segoe UI',sans-serif;
+    background:#05c178;
+    display:flex;
+}
+
+/* BOTÃO MENU */
+.menu-icon{
+  position:fixed;
+  top:20px;
+  left:20px;
+  font-size:26px;
+  cursor:pointer;
+  color:#fff;
+  font-weight:bold;
+  padding:8px 14px;
+  border-radius:8px;
+  z-index:1002;
+
+}
+
+/* SIDEBAR */
+.sidebar{
+  position:fixed;
+  top:0;
+  left:-260px;
+  height:100%;
+  width:260px;
+  background:#fff;
+  box-shadow:0 5px 15px rgba(0,0,0,0.1);
+  transition:0.3s;
+  z-index:1001;
+}
+
+.sidebar.active{
+  left:0;
+}
+
+.sidebar-content{
+  display:flex;
+  height:100%;
+  flex-direction:column;
+  justify-content:space-between;
+  padding:30px 16px;
+}
+
+/* HEADER DA SIDEBAR (LOGO) */
+.sidebar-header{
+  text-align:center;
+  font-weight:bold;
+  font-size:18px;
+  color:#05c178;
+  display: flex;         /* Coloca os itens lado a lado */
+  gap: 10px;             /* Espaço opcional entre a imagem e o texto */
+}
+
+.side-name{
+  font-size:24px;
+  font-weight:600;
+  color:#05c178;
+  line-height: 0.9;
+  font-style: italic;
+  word-spacing: -4px;
+}
+
+.side-img {
+  height: 48px;
+  width: auto;
+  margin-left: -9px;
+  margin-top: -17px;
+}
+
+/* LINKS */
+.list-items{
+  list-style:none;
+  margin-top: -28.8rem;
+  padding-left: 0;
+}
+
+.list-items li{
+  margin-bottom:8px;
+}
+
+.nav-link{
+  display:block;
+  padding:14px 12px;
+  border-radius:8px;
+  text-decoration:none;
+  color:#05c178;
+  transition:0.2s;
+}
+
+.nav-link:hover{
+  background:#05c178;
+  color:#fff;
+}
+
+.nav-logout{
+  display:block;
+  padding:14px 12px;
+  border-radius:8px;
+  text-decoration:none;
+  color:#FB4136;
+  margin-bottom: 4.3rem;
+  transition:0.2s;
+  text-align: center;
+}
+
+.nav-logout:hover{
+  background:#FB4136;
+  color:#fff;
+}
+
+/* OVERLAY */
+.overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.3);
+  display:none;
+  z-index:1000;
+}
+
+.overlay.active{
+  display:block;
+}
+
+.main{
+    margin-left:0;
+    width:100%;
+    height:100vh;               /* 🔥 altura total da tela */
+    display:flex;               /* 🔥 ativa flex */
+    justify-content:center;     /* 🔥 centraliza horizontal */
+    align-items:center;         /* 🔥 centraliza vertical */
+    transition:0.3s;
+}
+
+.main h2{
+    text-align: center;
+    margin-top: -15px;
+    margin-bottom: 25px;
+}
+
+.main.shift{ margin-left:260px; }
+
+.card{
+    background:#fff;
+    padding:40px;
+    border-radius:16px;
+    box-shadow:0 6px 18px rgba(0,0,0,0.08);
+    width:400px;
+}
+
+input,
+select{
+    width:100%;
+    height:44px;              /* 🔥 força mesma altura */
+    padding:0 12px;           /* padding lateral apenas */
+    margin-bottom:15px;
+    border-radius:8px;
+    border:1px solid #ddd;
+    font-size:14px;
+    box-sizing:border-box;    /* 🔥 garante mesmo cálculo */
+}
+
+button{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:8px;
+    background:#05c178;
+    color:#fff;
+    font-weight:600;
+    cursor:pointer;
+}
+</style>
+</head>
+<body>
+
+<div class="menu-icon" id="menuBtn">☰</div>
+
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-content">
+
+    <div class="sidebar-header">
+      <img src="images/icon-preto.png" alt="Logo A Casa Brasileira" class="side-img">
+      <span class="side-name">A Casa Brasileira</span>
+    </div>
+
+    <ul class="list-items">
+      <li>
+        <a href="gerencia.html" class="nav-link">Dashboard</a>
+      </li>
+      <li>
+        <a href="lista-usuarios.html" class="nav-link">Lista de Usuários</a>
+      </li>
+    </ul>
+
+    <a href="#" class="nav-logout" id="btnLogout">Sair</a>
+
+  </div>
+</div>
+
+<div class="overlay" id="overlay"></div>
+
+<div class="main" id="main">
+    <div class="card">
+        <h2>Cadastro de Usuários</h2>
+
+        <form id="cadastroForm">
+            <input type="text" id="username" placeholder="Usuário">
+            <input type="password" id="password" placeholder="Senha">
+
+            <select id="cargo">
+                <option value="">Selecione o cargo</option>
+                <option value="admin">Administrador</option>
+                <option value="gerente">Gerente</option>
+            </select>
+
+            <select id="loja">
+                <option value="">Selecione a Loja</option>
+            </select>
+
+            <button type="submit">Cadastrar</button>
+        </form>
+
+        <div id="successMessage" style="display:none;">
+            Usuário cadastrado com sucesso!
+        </div>
+    </div>
+</div>
+
+<script src="cadastro-script.js"></script>
+
+</body>
+</html>
